@@ -6,21 +6,22 @@ import java.util.Scanner;
 class RTG{
     public boolean Text(){
         //Creating a linked list in an array
-        List<Integer> list = new ArrayList<>();
+        List<String> TextList = new ArrayList<>();
         try{
             File TextFile = new File("gameDictionary.txt");
             Scanner TextReader = new Scanner(TextFile);
             while (TextReader.hasNextLine()) {
                 String Textdata = TextReader.nextLine();
-                System.out.println(Textdata);
+                TextList.add(Textdata);
         }
+            System.out.println(TextList);
+
 
     } catch (FileNotFoundException e) {
             e.printStackTrace();
             System.out.println("File is missing please enter the file");
             e.printStackTrace();
         }
-        return false;
-    }
+        return false;}
 }
 
