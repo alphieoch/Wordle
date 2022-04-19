@@ -8,20 +8,18 @@ class RTG{
         //Creating a linked list in an array
         List<Integer> list = new ArrayList<>();
         try{
-            File myObj = new File("gameDictionary.txt");
-            Scanner myReader = new Scanner(myObj);
-            while (myReader.hasNextLine()) {
-                String data = myReader.nextLine();
-                System.out.println(data);
+            File TextFile = new File("gameDictionary.txt");
+            Scanner TextReader = new Scanner(TextFile);
+            while (TextReader.hasNextLine()) {
+                String Textdata = TextReader.nextLine();
+                System.out.println(Textdata);
         }
 
     } catch (FileNotFoundException e) {
             e.printStackTrace();
-            System.out.println("File is missing");
+            System.out.println("File is missing please enter the file");
             e.printStackTrace();
         }
-
-
         return false;
     }
 }
