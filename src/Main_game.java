@@ -100,14 +100,25 @@ public class Main_game extends Main {
                             if (x.charAt(i)==Word.charAt(i)){
                                 //System.out.println("G"); //if character is equal
                                 Conf[i] = "Y";
-                                System.out.println("pos:"+i);
+                                //System.out.println("pos:"+i);
                             }
                             else {
                                 //System.out.println("R"); //if character is not equal
-                                Conf[i] = "N";
-                                System.out.println("pos:"+i);
+                                //check if the word is any other postion
+                                for (int i1 = 0; i1 < WordCha.length;i1++){
+                                    if (x.charAt(i)==Word.charAt(i1)){
+                                        Conf[i]= "N";
+                                        System.out.println("We have one here:"+Word.charAt(i1));
+                                        //i1=0;//resets back to 0
+                                    }
+                                    else{
+                                        Conf[i] = "L";
+
+                                    }
+                                }
                             }
                             }
+
                         }
                     else {
                         JOptionPane.showMessageDialog(panel,"This is not a 5 letter word try again");
