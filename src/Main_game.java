@@ -5,9 +5,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.Scanner;
 
 import static java.awt.Color.*;
 import static java.lang.String.valueOf;
@@ -22,54 +25,54 @@ public class Main_game extends Main {
     LinkedList<String> JTF = new LinkedList<>();
     public Main_game() {
         //Setup
+
         //components
         JFrame frame = new JFrame("/Wordle/");
         JPanel panel = new JPanel();
         panel.setLayout((null));
-        JLabel label = new JLabel("Welcome to wordle");
+        JLabel label = new JLabel("Wordle");
         JTextField Input = new JTextField();
         JButton button = new JButton();//main button to Submit
+        JButton Help = new JButton();//main button to Submit
         //---for attempts
-        JTextField[] field = new JTextField[31];
+        //2d array to reduce amount
+        JTextField[][] field = new JTextField[6][5];
         //first
-        field[0] = new JTextField();
-        field[1] = new JTextField();
-        field[2] = new JTextField();
-        field[3] = new JTextField();
-        field[4] = new JTextField();
+        field[0][0] = new JTextField();
+        field[0][1] = new JTextField();
+        field[0][2] = new JTextField();
+        field[0][3] = new JTextField();
+        field[0][4] = new JTextField();
         //Second row
-        field[5]= new JTextField();
-        field[6] = new JTextField();
-        field[7] = new JTextField();
-        field[8] = new JTextField();
-        field[9] = new JTextField();
+        field[1][0] = new JTextField();
+        field[1][1] = new JTextField();
+        field[1][2] = new JTextField();
+        field[1][3] = new JTextField();
+        field[1][4] = new JTextField();
         //thrid row
-        field[10] = new JTextField();
-        field[11] = new JTextField();
-        field[12] = new JTextField();
-        field[13] = new JTextField();
-        field[14] = new JTextField();
+        field[2][0] = new JTextField();
+        field[2][1] = new JTextField();
+        field[2][2] = new JTextField();
+        field[2][3] = new JTextField();
+        field[2][4] = new JTextField();
         //forth row
-        field[15] = new JTextField();
-        field[16] = new JTextField();
-        field[17] = new JTextField();
-        field[18] = new JTextField();
-        field[19] = new JTextField();
+        field[3][0] = new JTextField();
+        field[3][1] = new JTextField();
+        field[3][2] = new JTextField();
+        field[3][3] = new JTextField();
+        field[3][4] = new JTextField();
         //fith row
-        field[20] = new JTextField();
-        field[21] = new JTextField();
-        field[22] = new JTextField();
-        field[23] = new JTextField();
-        field[24] = new JTextField();
+        field[4][0] = new JTextField();
+        field[4][1] = new JTextField();
+        field[4][2] = new JTextField();
+        field[4][3] = new JTextField();
+        field[4][4] = new JTextField();
         //sixth row
-        field[25] = new JTextField();
-        field[26] = new JTextField();
-        field[27] = new JTextField();
-        field[28] = new JTextField();
-        field[29] = new JTextField();
-        field[30] = new JTextField();
-        //submit button
-        button.setText("Submit");
+        field[5][0] = new JTextField();
+        field[5][1] = new JTextField();
+        field[5][2] = new JTextField();
+        field[5][3] = new JTextField();
+        field[5][4] = new JTextField();
         //Frame
         frame.setSize(500, 500);
         frame.setLocationRelativeTo(null);
@@ -87,11 +90,24 @@ public class Main_game extends Main {
 //            label.setBounds(0, 0, 200, 40);
 //            Box1.setBackground(Color.gray);
 //        }
+        //Title
+        panel.add(label);
+        label.setFont(new Font(Font.MONOSPACED, Font.BOLD, 25));
+        label.setBounds(196, -24,100,100);
+        label.setForeground(Color.WHITE);
+        //Help
+        panel.add(Help);
+        Help.setBounds(10, 10, 40, 40);
+        Help.setFont(new Font("Serif", Font.BOLD, 20));
+        Help.setForeground(black);
+        Help.setFont(new Font(Font.MONOSPACED, Font.BOLD, 30));
+        Help.setText("?");
         //Input
         panel.add(Input);
         Input.setBounds(95, 350, 300, 40);
         Input.setFont(new Font("Serif", Font.BOLD, 20));
         Input.setHorizontalAlignment(JTextField.CENTER);
+        Input.setFont(new Font(Font.MONOSPACED, Font.BOLD, 30));
         //Prevents the user from adding more than 5 characters
         Input.addKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent e) {
@@ -101,10 +117,13 @@ public class Main_game extends Main {
             }
 
         });
-        //Button
+        //Button (to submit text
         panel.add(button);
         button.setBounds(150, 400, 200, 40);
         button.setFont(new Font("Serif", Font.BOLD, 20));
+        button.setForeground(black);
+        button.setFont(new Font(Font.MONOSPACED, Font.BOLD, 30));
+        button.setText("Submit");
         //Attempts
                 //help align
         int ix = 50;
@@ -115,19 +134,22 @@ public class Main_game extends Main {
         for (int y = 0; y <= 5; y++) { //y co,
             for (int x = 0; x < 5; x++) { //x co
                 FN++;
-                panel.add(field[FN]);
-                field[FN].setBounds(117+(x*ix) ,50+(y*iy), 50, 50); //x,y,h,w
-                field[FN].setFont(new Font("Serif", Font.BOLD, 20));
-                field[FN].setBackground(gray);
-                field[FN].setEditable(false);
-                System.out.println(FN);
+                panel.add(field[y][x]);
+                field[y][x].setBounds(117+(x*ix) ,50+(y*iy), 50, 50); //x,y,h,w
+                field[y][x].setFont(new Font("Serif", Font.BOLD, 20));
+                field[y][x].setBackground(gray);
+                field[y][x].setEditable(false);
+                field[y][x].setHorizontalAlignment(JTextField.CENTER);
+                field[y][x].setForeground(Color.white);
+                field[y][x].setFont(new Font(Font.MONOSPACED, Font.BOLD, 30));
+                //System.out.println(FN);
             }
         }
-        ///interaction
-        int LC; //letter count
         button.addActionListener(new ActionListener() {
-            @Override
+            int LC = 0; //level count go through each level
             public void actionPerformed(ActionEvent arg0) {
+                //to make sure the user is using actual words
+                File file = new File("gameDictionary.txt");
                 if (i >= WordAttempt.length) {
                     System.out.println("Gameover");
 
@@ -136,60 +158,83 @@ public class Main_game extends Main {
                     String x = Input.getText();
                     x = x.toLowerCase();//sets the text to lower case so its not case sensitive
                     //checking if the users input is alphabetical
-                    if (x == null || x.equals("") || !x.chars().allMatch(Character::isLetter)){
-                        //if the user inputs a non alphabetical it wont allow them to contiune
-                        String mes1 =("Please only input alphabetical characters"); //no need to repeat a message
-                        System.out.println(mes1);
-                        JOptionPane.showMessageDialog(frame, mes1);
-                        //testing if it would work in this section
+                    if(x == null || x.equals("") ){
+                        System.out.println("Please enter characters");
+                        JOptionPane.showMessageDialog(frame,"Please enter a word");
                     }
                     else {
-                        //To get word of the day
-                        String Word = Main.Text;
-                        if (x.equals(Word)) {
-                            WordAttempt[i] = x;//adding to the array
-                            System.out.println("Correct");
-                            Input.setEditable(false);//Stops user from continuing
-                            button.setForeground(Color.GREEN);
-                            field[0].setBackground(GREEN);
-                            JOptionPane.showMessageDialog(frame, "correct");
-                            button.setEnabled(false);
-
-
-                        } else {
-                            //x = x.toLowerCase();
-                            WordAttempt[i] = x;
-                            System.out.println(Arrays.toString(WordAttempt));
-                            System.out.println("attempt:" + (i) + "/6");
-                            //showing the attempts
-                            System.out.println(Arrays.toString(WordCha));
-                            //Now Going to compare each value
-                            for (int i = 0; i < Word.length(); i++) {
-                                if (x.charAt(i) == Word.charAt(i)) {
-                                    //System.out.println("G"); //if character is equal
-                                    Conf[i] = "G"; // green is mean
-                                    //System.out.println("pos:"+i);
-                                } else {
-                                    //take current letter and compare with other elements
-                                    for (int i1 = 0; i1 < Word.length(); i1++) {
-                                        System.out.println(Word);
+                        if (!x.chars().allMatch(Character::isLetter)){
+                            //if the user inputs a non alphabetical it wont allow them to contiune
+                            String mes1 =("Please only input alphabetical characters"); //no need to repeat a message
+                            System.out.println(mes1);
+                            JOptionPane.showMessageDialog(frame, mes1);
+                            //testing if it would work in this section
+                        }
+                        else {
+                            //checking if the word is valid- =_= --- 1 issue
+                            Wordcheck WRD = new Wordcheck(x);
+                            }
+                            //To get word of the day
+                            String Word = Main.Text;
+                            if (x.equals(Word)) {
+                                WordAttempt[i] = x;//adding to the array
+                                System.out.println("Correct");
+                                Input.setEditable(false);//Stops user from continuing
+                                button.setForeground(Color.GREEN);
+                                //field[x][0].setBackground(GREEN);///--------
+                                JOptionPane.showMessageDialog(frame, "correct completed in"+ (i+1));
+                                for (int i = 0; i < 5;i++ ){
+                                    field[LC][i].setBackground(GREEN);
+                                    field[LC][i].setText(String.valueOf(x.charAt(i)));
+                                }
+                                button.setEnabled(false);
+                            } else {
+                                //x = x.toLowerCase();
+                                WordAttempt[i] = x;
+                                System.out.println(Arrays.toString(WordAttempt));
+                                System.out.println("attempt:" + (i+1) + "/6");
+                                //showing the attempts
+                                System.out.println(Arrays.toString(WordCha));
+                                //Now Going to compare each value
+                                for (int i = 0; i < Word.length(); i++) {
+                                    if (x.charAt(i) == Word.charAt(i)) {
+                                        //System.out.println("G"); //if character is equal
+                                        Conf[i] = "G"; // green is mean
+                                        field[LC][i].setBackground(GREEN);//setting colour green
+                                        field[LC][i].setText(String.valueOf(x.charAt(i)));
+                                        //System.out.println("pos:"+i);
+                                    }
+                                    else if (x.charAt(i) != Word.charAt(i)){
+                                        for (int i1 = 0; i1 < Word.length(); i1++) {
                                         if (Word.charAt(i1) == x.charAt(i)) {
                                             Conf[i] = "Y";
-                                            //set the value to be L
-                                            System.out.println("We have one here:" + Word.charAt(i1));
+                                            field[LC][i1].setBackground(YELLOW);//setting colour green
+                                            field[LC][i].setText(String.valueOf(x.charAt(i)));
+                                            //System.out.println("We have one here:" + Word.charAt(i1));
                                             //i1=0;//resets back to 0
                                         } else {
                                             //if unavailable to be R (RED)
                                             Conf[i] = "R";
+                                            field[LC][i].setBackground(RED);//setting colour green
+                                            field[LC][i].setText(String.valueOf(x.charAt(i)));
                                         }
-                                        System.out.println(Arrays.toString(Conf));
+                                        }
                                     }
                                 }
+                                LC++;
+                                System.out.println("The target word is:"+Word);
                             }
-
                         }
                     }
                 }
+        });
+        Help.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Please enter characters");
+                JOptionPane.showMessageDialog(frame,"Welcome to wordle." +
+                        "Fill in the gaps and see if you can guess the word you have six attemopt good luck - Alphonce Ochieng");
+
             }
         })
     ;}

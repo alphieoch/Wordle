@@ -11,7 +11,7 @@ class RTG{
         List<String> TextList = new ArrayList<>();
         String RandomText = null;
         try {
-            File TextFile = new File("gameDictionary.txt");
+            File TextFile = new File("targetWords.txt");
             Scanner TextReader = new Scanner(TextFile);
             while (TextReader.hasNextLine()) {
                 String Textdata = TextReader.nextLine();
