@@ -175,14 +175,15 @@ public class Main_game extends Main {
                             Wordcheck WRD = new Wordcheck(x);
                             }
                             //To get word of the day
-                            String Word = Main.Text;
-                            if (x.equals(Word)) {
+                            String target = Main.Text;
+                        //havent been deleted as requested ^
+                            if (x.equals(target)) {
                                 WordAttempt[i] = x;//adding to the array
                                 System.out.println("Correct");
                                 Input.setEditable(false);//Stops user from continuing
                                 button.setForeground(Color.GREEN);
                                 //field[x][0].setBackground(GREEN);///--------
-                                JOptionPane.showMessageDialog(frame, "correct completed in"+ (i+1));
+                                JOptionPane.showMessageDialog(frame, "Congratulations completed in:"+ " "+(LC+1)+" attempts."+ " Reset program to have another go.");
                                 for (int i = 0; i < 5;i++ ){
                                     field[LC][i].setBackground(GREEN);
                                     field[LC][i].setText(String.valueOf(x.charAt(i)));
@@ -191,38 +192,38 @@ public class Main_game extends Main {
                             } else {
                                 //x = x.toLowerCase();
                                 WordAttempt[i] = x;
-                                System.out.println(Arrays.toString(WordAttempt));
                                 System.out.println("attempt:" + (i+1) + "/6");
                                 //showing the attempts
                                 System.out.println(Arrays.toString(WordCha));
                                 //Now Going to compare each value
-                                for (int i = 0; i < Word.length(); i++) {
-                                    if (x.charAt(i) == Word.charAt(i)) {
+                                for (int i = 0; i < target.length(); i++) {
+                                    if (x.charAt(i) == target.charAt(i)) {
                                         //System.out.println("G"); //if character is equal
                                         Conf[i] = "G"; // green is mean
                                         field[LC][i].setBackground(GREEN);//setting colour green
                                         field[LC][i].setText(String.valueOf(x.charAt(i)));
                                         //System.out.println("pos:"+i);
                                     }
-                                    else if (x.charAt(i) != Word.charAt(i)){
-                                        for (int i1 = 0; i1 < Word.length(); i1++) {
-                                        if (Word.charAt(i1) == x.charAt(i)) {
+                                    else if (x.charAt(i) != target.charAt(i)){
+                                        for (int i1 = 0; i1 < target.length(); i1++) {
+                                        if (target.charAt(i1) == x.charAt(i)) {
                                             Conf[i] = "Y";
                                             field[LC][i1].setBackground(YELLOW);//setting colour green
                                             field[LC][i].setText(String.valueOf(x.charAt(i)));
-                                            //System.out.println("We have one here:" + Word.charAt(i1));
+                                            System.out.println("We have one here:" + target.charAt(i1));
                                             //i1=0;//resets back to 0
                                         } else {
                                             //if unavailable to be R (RED)
                                             Conf[i] = "R";
-                                            field[LC][i].setBackground(RED);//setting colour green
+                                            field[LC][i1].setBackground(RED);//setting colour green
                                             field[LC][i].setText(String.valueOf(x.charAt(i)));
                                         }
                                         }
                                     }
                                 }
                                 LC++;
-                                System.out.println("The target word is:"+Word);
+                                System.out.println("The target word is:"+target);
+                                System.out.println(Arrays.toString(WordAttempt));
                             }
                         }
                     }

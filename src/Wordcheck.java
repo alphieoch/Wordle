@@ -1,4 +1,4 @@
-//Word check to check if the word is valid... Goes through the words but outputs the location of the word in memory. disable till fix.
+//Word check to check if the word is valid... Goes through the words but outputs the location of the word in memory when sent to main. disable till fix.
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
